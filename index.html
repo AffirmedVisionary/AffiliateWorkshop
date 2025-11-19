@@ -308,6 +308,17 @@
       margin: 0 0 8px 0;
     }
 
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    .modal-buttons.hide-copy .btn-primary {
+      display: none;
+    }
+
     .modal-close {
       position: absolute;
       top: 16px;
@@ -460,13 +471,16 @@
      <h2 class="nav-title">Wizard Steps</h2>
      <div id="nav-steps"></div>
     </nav>
-    <nav class="nav-section"><button class="nav-item" onclick="showAbout()"> <span class="nav-item-number">ℹ️</span> <span>About</span> </button>
+    <nav class="nav-section"><button class="nav-item" id="after-class-nav" onclick="showAfterClass()" disabled style="opacity: 0.3; cursor: not-allowed;"> <span class="nav-item-number">⭐</span> <span>After Class</span> </button> <button class="nav-item" onclick="showAbout()"> <span class="nav-item-number">ℹ️</span> <span>About</span> </button>
     </nav>
    </aside>
    <main class="main-content">
     <div class="wizard-card" id="wizard-content">
      <p style="text-align: center; color: #999;">Loading...</p>
     </div>
+    <footer style="text-align: center; padding: 24px 0; margin-top: auto; font-size: 13px; color: #999;">
+     © Affirmed Visionary • Designed for students of the Visionary In Progress Workshop Series
+    </footer>
    </main>
   </div>
   <div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
@@ -475,18 +489,18 @@
      <h2 class="modal-title" id="modal-title"></h2>
     </div>
     <div id="modal-content"></div>
-    <div class="button-group"><button class="btn btn-primary" onclick="copyPrompt()">📋 Copy to Clipboard</button> <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+    <div class="modal-buttons" id="modal-buttons"><button class="btn btn-primary" onclick="copyPrompt()">📋 Copy to Clipboard</button> <button class="btn btn-secondary" onclick="closeModal()">Close</button>
     </div>
    </div>
   </div>
-  <div class="toast" id="toast"><span>���</span> <span id="toast-message"></span>
+  <div class="toast" id="toast"><span>�����</span> <span id="toast-message"></span>
   </div>
   <div class="confetti-container" id="confetti-container"></div>
   <script>
     const defaultConfig = {
       brand_name: 'Visionary In Progress',
       tagline: 'We do vibes and invoices',
-      about_text: 'Your brand story will appear here. Edit this text to share your journey with your audience.'
+      about_text: 'Visionary In Progress is a soft productivity community for those building digital offers with AI and story, with soul, strategy, and zero pressure. Expect prompts, monthly projects, co-working, and a resource vault. We do vibes and invoices, with a gentle rhythm that protects your peace.'
     };
 
     let config = { ...defaultConfig };
@@ -530,7 +544,7 @@
           'Upload it as your Beacons profile image'
         ],
         whyMatters: 'A consistent avatar builds trust and removes the pressure of a perfect selfie. It also helps your store visually match your niche.',
-        prompt: 'Role:\nYou are an AI art prompt designer who specialises in creating clean, friendly avatar prompts for beginners. You help users clarify creative details and turn their ideas into polished, ready-to-generate AI art prompts.\n\nContext:\nThe user is creating an avatar for their new affiliate storefront on Beacons.\nThey will use this avatar instead of a real photo.\nThe avatar should:\n• Look friendly and trustworthy\n• Match their niche\n• Use a simple, modern art style\n• Feel aligned with their personal vibe\n\nTask:\nAsk the user the following questions one at a time, wait for their answer each time, and build the avatar details gradually:\n\nWhat gender, age or general look should the avatar have\n\nWhat niche did you choose on Screen 2\n\nWhat visual vibe do you prefer (choose one: flat illustration, soft 3D, pastel cartoon, digital painting, minimalist line art)\n\nOptional: Do you want any accessories or traits included (glasses, headscarf, afro puff, hoodie, notebook, camera, subtle tattoos etc.)\n\nAfter collecting all answers, create three separate avatar prompts:\n\nPrompt 1 — "User Requested Prompt"\n\nA clean, accurate art prompt using exactly the details they provided.\n\nPrompt 2 — "Enhanced Art Prompt"\n\nA slightly more stylised and visually rich version of the prompt, improving lighting, composition and art direction while still keeping it simple and friendly.\n\nPrompt 3 — "Niche-Aligned Suggestion"\n\nAn avatar prompt that you think best represents their chosen niche, even if the user didn\'t think of it.\nExplain in one sentence why this version matches the niche well.',
+        prompt: 'Role:\nYou are an AI art prompt designer who specialises in creating clean, friendly avatar prompts for beginners. You help users clarify creative details and turn their ideas into polished, ready-to-generate AI art prompts.\n\nContext:\nThe user is creating an avatar for their new affiliate storefront on Beacons.\nThey will use this avatar instead of a real photo.\nThe avatar should:\n• Look friendly and trustworthy\n• Match their niche\n• Use a simple, modern art style\n• Feel aligned with their personal vibe\n\nTask:\nAsk the user the following questions one at a time, wait for their answer each time, and build the avatar details gradually:\n\nWhat gender, age or general look should the avatar have\n\nWhat niche did you choose on Screen 2\n\nWhat visual vibe do you prefer (choose one: flat illustration, soft 3D, pastel cartoon, digital painting, minimalist line art)\n\nOptional: Do you want any accessories or traits included (glasses, headscarf, afro puff, hoodie, notebook, camera, subtle tattoos etc.)\n\nAfter collecting all answers, create three separate avatar prompts:\n\nPrompt 1 ��� "User Requested Prompt"\n\nA clean, accurate art prompt using exactly the details they provided.\n\nPrompt 2 — "Enhanced Art Prompt"\n\nA slightly more stylised and visually rich version of the prompt, improving lighting, composition and art direction while still keeping it simple and friendly.\n\nPrompt 3 — "Niche-Aligned Suggestion"\n\nAn avatar prompt that you think best represents their chosen niche, even if the user did not think of it.\nExplain in one sentence why this version matches the niche well.',
         promptLabel: 'Avatar Prompt Generator',
         promptTitle: 'Avatar Prompt Generator'
       },
@@ -636,7 +650,7 @@
           'AI Education': 'prompt packs, tool guides, worksheets'
         },
         whyMatters: 'Aligned products feel natural to recommend and are more likely to convert into sales.',
-        prompt: 'ROLE\n\nYou are an affiliate product advisor helping a beginner choose profitable, relevant Creative Fabrica products for their niche.\n\nCONTEXT\n\nThe user has chosen a niche and needs three beginner-friendly digital products that match the needs of their audience.\n\nTASK\n\nAsk the user:\n"What is your niche and who is your ideal audience inside that niche (e.g. busy mums, new teachers, gym beginners, wellness seekers)?"\n\nWait for their answer.\n\nOUTCOME\n\nProvide five product suggestions that:\n• are easy to explain\n• solve a small, clear problem\n• feel relevant to their niche\n• are beginner friendly to promote\n\nFor each product include:\n• what it is\n• who it helps\n• why it's a good affiliate pick\n\nFORMAT OUTPUT LIKE:\nHere are 5 product ideas that would work well for your niche:\n\n1. [Product Name]\nWhat it is:\nWho it helps:\nWhy it's beginner friendly:\n\n2. ...\n3. ...\n4. ...\n5. ...\n\nWould you like more options or help choosing the top 3?',
+        prompt: 'ROLE\n\nYou are an affiliate product advisor helping a beginner choose profitable, relevant Creative Fabrica products for their niche.\n\nCONTEXT\n\nThe user has chosen a niche and needs three beginner-friendly digital products that match the needs of their audience.\n\nTASK\n\nAsk the user:\n"What is your niche and who is your ideal audience inside that niche (e.g. busy mums, new teachers, gym beginners, wellness seekers)?"\n\nWait for their answer.\n\nOUTCOME\n\nProvide five product suggestions that:\n• are easy to explain\n• solve a small, clear problem\n• feel relevant to their niche\n• are beginner friendly to promote\n\nFor each product include:\n• what it is\n• who it helps\n• why it is a good affiliate pick\n\nFORMAT OUTPUT LIKE:\nHere are 5 product ideas that would work well for your niche:\n\n1. [Product Name]\nWhat it is:\nWho it helps:\nWhy it is beginner friendly:\n\n2. ...\n3. ...\n4. ...\n5. ...\n\nWould you like more options or help choosing the top 3?',
         promptLabel: 'Open Product Ideas Prompt',
         promptTitle: 'Product Selection Prompt'
       },
@@ -691,24 +705,32 @@
       },
       {
         id: 'first-post',
-        title: 'Step 10 - Write your first promo post',
-        description: 'Your store is only useful if people know it exists. A simple post is enough to start.',
+        title: 'Step 10 - Create captions for your Pippit videos',
+        description: 'Your Pippit videos are ready. Now let us write captions that fit your niche, your product and your voice.',
         checklist: [
-          'Copy the template',
-          'Personalise it for your niche and product',
-          'Save it or publish it'
+          'Choose the Pippit video you want to caption',
+          'Open the caption prompt',
+          'Answer the guided questions',
+          'Copy your 3 caption options',
+          'Paste into Pippit / your scheduler'
         ],
-        whyMatters: 'You do not need a perfect campaign. You just need a clear invitation so people can click.',
-        prompt: null,
-        hasTextbox: true,
-        textboxTemplate: 'I just added my top [niche] resource to my page. If you are working on [small problem], start with this one.\n\nLink: [your Beacons link]'
+        whyMatters: 'Captions help people understand why the product matters. This step adds your personality and makes your promo feel real, not robotic.',
+        prompt: 'ROLE:\n\nYou are a social caption specialist helping beginners write simple, clear captions for short promotional videos generated by Pippit.\n\nCONTEXT:\n\nThe user has:\n• a niche\n• a Pippit-generated video based on their product\n• an affiliate link\nThey need captions that sound helpful, confident and aligned with their audience.\n\nTASK:\n\nAsk the user these questions one at a time:\n\nWhat is your niche\n\nWhat is the product link (paste here)\n\nWho is the audience you want to attract\n\nWhat small problem does this product help them with\n\nOUTCOME:\n\nAfter collecting answers, generate three caption variations:\n\nSoft + supportive (wellness / mindset / gentle)\n\nClear + helpful (ESL / fitness / education)\n\nShort + punchy (TikTok / Reels style)\n\nEach caption MUST:\n\n• mention the outcome or benefit\n• speak directly to the audience\n• include the product link\n• avoid hypey language\n• be 1–3 lines max\n• feel real and human\n\nFORMAT OUTPUT LIKE:\nHere are 3 caption options based on your video:\n\n1. Soft + Supportive\n[text]\nLink: [paste]\n\n2. Clear + Helpful\n[text]\nLink: [paste]\n\n3. Short + Punchy\n[text]\nLink: [paste]\n\nWould you like longer captions, carousel captions, or a version written in your brand tone?',
+        promptLabel: 'Caption Writer',
+        promptTitle: 'Caption Writer Prompt'
       },
       {
         id: 'finished',
-        title: '🎊 Congratulations!',
-        description: 'You\'ve completed your first affiliate storefront! You can now revisit any step from the sidebar.',
+        title: '🌟 Congratulations!',
+        subtitle: 'Your Affiliate Storefront Is Live 🎉',
+        description: 'You followed the steps.\nYou built the system.\nAnd now you are officially up and running.\n\nThis is your foundation — your first digital flow.\nFrom here, everything else is gentle upgrades, tiny tweaks and small wins that build over time.\n\nTake a breath.\nCelebrate the momentum.\nYou did that.',
         checklist: [],
-        whyMatters: 'You\'ve built the foundation. Now keep creating, testing, and learning. The dashboard is unlocked!',
+        whyMatters: 'You now have a working affiliate setup with:\n• a clear niche\n• a Beacons store\n• an avatar\n• three products\n• automatic Pippit videos\n• and captions ready to publish\n\nThat is a full, real system — created in one session.\nMost people stay stuck at "thinking about starting."\nYou actually started.',
+        nextSteps: {
+          title: '✔️ What You Can Do Next',
+          content: 'Whenever you are ready, visit the After Class section for:\n• simple store upgrades\n• new product ideas\n• Pippit routines\n• caption practice\n• Skool community exploration\n• extra creative ways to grow\n\nNo pressure, no deadlines, just options.'
+        },
+        footerQuote: 'Done beats perfect. You can refine anytime. What matters is you moved.',
         prompt: null,
         isFinished: true
       }
@@ -749,7 +771,7 @@
                 onclick="navigateToStep(${index})"
                 ${!wizardCompleted && index > currentStepIndex ? 'disabled' : ''}>
           <span class="nav-item-number">${index + 1}</span>
-          <span>${step.title.replace(/🎊|🎉/g, '').trim()}</span>
+          <span>${step.title.replace(/🎊|����/g, '').trim()}</span>
         </button>
       `).join('');
     }
@@ -769,9 +791,15 @@
       if (!content) return;
 
       let html = `
-        <div class="step-header" ${step.isStart ? 'style="text-align: center;"' : ''}>
+        <div class="step-header" ${step.isStart || step.isFinished ? 'style="text-align: center;"' : ''}>
           <h2 class="step-title">${step.title}</h2>
-          <p class="step-description">${step.description}</p>
+          ${step.subtitle ? `<h3 style="font-size: 24px; font-weight: 600; margin: 8px 0 16px 0; color: #666;">${step.subtitle}</h3>` : ''}
+          ${step.isStart ? `<img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaTRzeDFnMmtxbnQ3aHRxMTU3c2tqenFjaDdnb3NpNHZ5Y21mYWNvdCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wnFmdV9lIGKox9jV4e/giphy.gif" alt="Welcome animation" style="max-width: 300px; width: 100%; margin: 20px auto; display: block; border-radius: 16px;" onerror="this.style.display='none';">` : ''}
+          <p class="step-description" style="${step.isFinished ? 'white-space: pre-line;' : ''}">${step.description}</p>
+          ${step.isStart ? `<div style="margin: 32px auto; padding: 20px; background: rgba(168, 230, 207, 0.1); border-radius: 12px; border-left: 4px solid #a8e6cf; max-width: 600px; text-align: left;">
+            <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 12px 0; color: #333;">🌿 Friendly Use Notice</h3>
+            <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.7;">This app is part of the Affirmed Visionary workshops and is for your personal use only. Please don't share it outside the sessions. Thank you for helping keep our learning space safe, supportive and exclusive.</p>
+          </div>` : ''}
         </div>
       `;
 
@@ -885,7 +913,16 @@
         html += `
           <div class="why-matters">
             <h3 class="why-matters-title">💡 Why This Matters</h3>
-            <p class="why-matters-text">${step.whyMatters}</p>
+            <p class="why-matters-text" style="white-space: pre-line;">${step.whyMatters}</p>
+          </div>
+        `;
+      }
+
+      if (step.nextSteps) {
+        html += `
+          <div style="margin: 32px 0; padding: 24px; background: rgba(255, 255, 255, 0.6); border-radius: 16px; border: 2px solid rgba(168, 230, 207, 0.3);">
+            <h3 style="font-size: 18px; font-weight: 600; margin: 0 0 16px 0; color: #333;">${step.nextSteps.title}</h3>
+            <p style="font-size: 15px; color: #666; margin: 0; line-height: 1.8; white-space: pre-line;">${step.nextSteps.content}</p>
           </div>
         `;
       }
@@ -893,14 +930,15 @@
       html += `<div class="button-group" ${step.isStart ? 'style="justify-content: center;"' : ''}>`;
       
       if (index > 0 && !step.isFinished) {
-        html += `<button class="btn btn-secondary" onclick="previousStep()">⬅️ Back</button>`;
+        html += `<button class="btn btn-secondary" onclick="previousStep()">����� Back</button>`;
       }
 
       if (step.isStart) {
         html += `<button class="btn btn-primary" onclick="nextStep()">Start Wizard 🚀</button>`;
       } else if (step.isFinished) {
-        html += `<button class="btn btn-primary" onclick="unlockDashboard()">Open Wizard Dashboard 🎯</button>`;
-        html += `<button class="btn btn-secondary" onclick="restartWizard()">Restart Wizard 🔄</button>`;
+        html += `<button class="btn btn-primary" onclick="showAfterClass()">Visit After Class ⭐</button>`;
+        html += `<button class="btn btn-secondary" onclick="window.open('https://forms.gle/your-form-link', '_blank')" style="text-decoration: none;">Give Feedback 💬</button>`;
+        html += `<button class="btn btn-outline" onclick="restartWizard()">Restart Wizard 🔄</button>`;
       } else if (index < steps.length - 1) {
         html += `<button class="btn btn-primary" onclick="nextStep()">Next ➡</button>`;
       }
@@ -910,6 +948,14 @@
       }
 
       html += `</div>`;
+
+      if (step.footerQuote) {
+        html += `
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(0, 0, 0, 0.05); text-align: center;">
+            <p style="font-size: 14px; color: #999; font-style: italic; margin: 0;">🌈 ${step.footerQuote}</p>
+          </div>
+        `;
+      }
 
       content.innerHTML = html;
     }
@@ -921,10 +967,20 @@
         if (currentStepIndex === steps.length - 1) {
           wizardCompleted = true;
           triggerConfetti();
+          unlockAfterClass();
         }
         
         renderNavSteps();
         renderStep(currentStepIndex);
+      }
+    }
+
+    function unlockAfterClass() {
+      const afterClassNav = document.getElementById('after-class-nav');
+      if (afterClassNav) {
+        afterClassNav.disabled = false;
+        afterClassNav.style.opacity = '1';
+        afterClassNav.style.cursor = 'pointer';
       }
     }
 
@@ -941,10 +997,22 @@
       document.getElementById('modal-title').textContent = step.promptTitle || step.title;
       document.getElementById('modal-content').innerHTML = `<div class="prompt-content">${step.prompt || 'Prompt content will be added here.'}</div>`;
       currentPromptText = step.prompt || '';
+      
+      // Show the copy button for prompt modals
+      const modalButtons = document.getElementById('modal-buttons');
+      if (modalButtons) {
+        modalButtons.classList.remove('hide-copy');
+      }
+      
       document.getElementById('modal-overlay').classList.add('active');
     }
 
     function closeModal() {
+      // Reset modal header alignment when closing
+      const modalHeader = document.querySelector('.modal-header');
+      if (modalHeader) {
+        modalHeader.style.textAlign = '';
+      }
       document.getElementById('modal-overlay').classList.remove('active');
     }
 
@@ -1029,22 +1097,147 @@
       showToast('Wizard restarted!');
     }
 
-    function showAbout() {
-      const aboutText = config.about_text || defaultConfig.about_text;
-      document.getElementById('modal-title').textContent = 'About ' + (config.brand_name || defaultConfig.brand_name);
+    function showAfterClass() {
+      if (!wizardCompleted) {
+        showToast('Complete the wizard first to unlock After Class! 🌟');
+        return;
+      }
+      
+      // Hide the copy button for After Class modal
+      const modalButtons = document.getElementById('modal-buttons');
+      if (modalButtons) {
+        modalButtons.classList.add('hide-copy');
+      }
+      
+      document.getElementById('modal-title').textContent = 'After Class: Keep the Magic Going ✨';
       document.getElementById('modal-content').innerHTML = `
         <div class="about-content">
-          <p style="font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">${config.tagline || defaultConfig.tagline}</p>
-          <p style="margin: 0 0 24px 0;">${aboutText}</p>
-          <div class="social-links">
-            <a href="#" class="social-btn" onclick="event.preventDefault(); return false;">🌐 Website</a>
-            <a href="#" class="social-btn" onclick="event.preventDefault(); return false;">🎓 Skool</a>
-            <a href="#" class="social-btn" onclick="event.preventDefault(); return false;">📱 TikTok</a>
-            <a href="#" class="social-btn" onclick="event.preventDefault(); return false;">📸 Instagram</a>
-            <a href="#" class="social-btn" onclick="event.preventDefault(); return false;">💼 LinkedIn</a>
+          <p style="font-size: 16px; font-weight: 600; margin: 0 0 20px 0; color: #666; font-style: italic;">Small tweaks make big moves. Here's how to glow up your storefront, one tiny step at a time.</p>
+          
+          <div style="margin-bottom: 28px;">
+            <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: #333;">🌱 1. Give Your Store a Mini Glow-Up</h3>
+            <p style="margin: 0 0 12px 0; font-size: 15px; color: #666; line-height: 1.7;">Just one small upgrade at a time:</p>
+            <ul style="margin: 0 0 8px 0; padding-left: 24px; font-size: 14px; color: #666; line-height: 1.8;">
+              <li>Add your brand colours</li>
+              <li>Swap in a stronger avatar</li>
+              <li>Give your links cute titles</li>
+              <li>Add a short intro or tagline</li>
+              <li>Reorder your top picks</li>
+            </ul>
+            <p style="margin: 0; font-size: 14px; color: #999; font-style: italic;">No rush, no pressure, just vibes and improvements.</p>
+          </div>
+
+          <div style="margin-bottom: 28px;">
+            <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: #333;">�� 2. Add 1–2 New Products Weekly</h3>
+            <p style="margin: 0 0 12px 0; font-size: 15px; color: #666; line-height: 1.7;">Imagine your Beacons like a tiny digital shop window.<br>A few fresh finds every week = more clicks + more curiosity.</p>
+            <p style="margin: 0 0 8px 0; font-size: 14px; color: #666; font-weight: 600;">Try:</p>
+            <ul style="margin: 0; padding-left: 24px; font-size: 14px; color: #666; line-height: 1.8;">
+              <li>A new worksheet</li>
+              <li>A niche-specific template</li>
+              <li>A seasonal printable</li>
+              <li>A tool your audience will love</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom: 28px;">
+            <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: #333;">🎬 3. Drop a New Pippit Video</h3>
+            <p style="margin: 0; font-size: 15px; color: #666; line-height: 1.7;">Let Pippit cook.<br>Choose one link → generate → post.<br>Even one new video a week keeps your store warm and alive.</p>
+          </div>
+
+          <div style="margin-bottom: 28px;">
+            <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: #333;">🧪 4. Experiment With Captions</h3>
+            <p style="margin: 0 0 12px 0; font-size: 15px; color: #666; line-height: 1.7;">Try different styles on different days:</p>
+            <ul style="margin: 0 0 8px 0; padding-left: 24px; font-size: 14px; color: #666; line-height: 1.8;">
+              <li>Soft & supportive</li>
+              <li>Helpful & clear</li>
+              <li>Punchy & playful</li>
+              <li>Storytime vibes</li>
+              <li>"Before & after" micro wins</li>
+            </ul>
+            <p style="margin: 0; font-size: 14px; color: #999; font-style: italic;">You're building voice, rhythm and brand personality.</p>
+          </div>
+
+          <div style="margin-bottom: 28px;">
+            <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: #333;">🎁 5. Build a "Top Picks" Section</h3>
+            <p style="margin: 0 0 12px 0; font-size: 15px; color: #666; line-height: 1.7;">Create a mini collection of your favourites:</p>
+            <ul style="margin: 0 0 8px 0; padding-left: 24px; font-size: 14px; color: #666; line-height: 1.8;">
+              <li>Your #1 bestseller</li>
+              <li>A hidden gem</li>
+              <li>A tool you use yourself</li>
+              <li>A starter pack for beginners</li>
+            </ul>
+            <p style="margin: 0; font-size: 14px; color: #999; font-style: italic;">People love curated lists — it makes choosing easy.</p>
+          </div>
+
+          <div style="margin-bottom: 28px;">
+            <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: #333;">📚 6. Explore Visionary In Progress</h3>
+            <p style="margin: 0 0 12px 0; font-size: 15px; color: #666; line-height: 1.7;">Once your free pass unlocks, check out:</p>
+            <ul style="margin: 0 0 8px 0; padding-left: 24px; font-size: 14px; color: #666; line-height: 1.8;">
+              <li>Creative Tier classrooms</li>
+              <li>Prompt Party playground</li>
+              <li>Tools + templates</li>
+              <li>Community discussions</li>
+              <li>Workshops + replays</li>
+            </ul>
+            <p style="margin: 0; font-size: 14px; color: #999; font-style: italic;">It's your digital office block — wander, explore, make yourself at home.</p>
+          </div>
+
+          <div style="margin-bottom: 28px;">
+            <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: #333;">💡 7. Optional Fun Extras</h3>
+            <p style="margin: 0 0 12px 0; font-size: 15px; color: #666; line-height: 1.7;">If you're in the mood:</p>
+            <ul style="margin: 0 0 8px 0; padding-left: 24px; font-size: 14px; color: #666; line-height: 1.8;">
+              <li>Make a second avatar</li>
+              <li>Try a new art style</li>
+              <li>Build a second niche page</li>
+              <li>Create a "Resources I Love" section</li>
+              <li>Turn your captions into a carousel</li>
+              <li>Start a Monday ritual of "1 product, 1 caption, 1 video"</li>
+            </ul>
+            <p style="margin: 0; font-size: 14px; color: #999; font-style: italic;">Soft habits build strong systems.</p>
+          </div>
+
+          <div style="margin-bottom: 0; padding: 20px; background: linear-gradient(135deg, rgba(168, 230, 207, 0.1) 0%, rgba(221, 165, 232, 0.1) 100%); border-radius: 12px; border-left: 4px solid #a8e6cf;">
+            <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: #333;">✨ 8. Remember This</h3>
+            <p style="margin: 0; font-size: 15px; color: #666; line-height: 1.8;">You don't need perfection to be successful.<br>You just need momentum, curiosity and a link you're proud to share.<br><br>You've already done the hard part.<br>Everything else is a gentle rise.</p>
           </div>
         </div>
       `;
+      document.getElementById('modal-overlay').classList.add('active');
+    }
+
+    function showAbout() {
+      const aboutText = config.about_text || defaultConfig.about_text;
+      
+      // Center the modal title
+      const modalHeader = document.querySelector('.modal-header');
+      if (modalHeader) {
+        modalHeader.style.textAlign = 'center';
+      }
+      
+      document.getElementById('modal-title').textContent = 'About ' + (config.brand_name || defaultConfig.brand_name);
+      document.getElementById('modal-content').innerHTML = `
+        <div class="about-content" style="text-align: center;">
+          <p style="font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">${config.tagline || defaultConfig.tagline}</p>
+          <p style="margin: 0 0 24px 0;">${aboutText}</p>
+          <div class="social-links" style="justify-content: center;">
+            <a href="https://affirmedvisionary.store" target="_blank" rel="noopener noreferrer" class="social-btn">🌐 Website</a>
+            <a href="https://affirmedvisionary.substack.com" target="_blank" rel="noopener noreferrer" class="social-btn">📝 Substack</a>
+            <a href="https://tiktok.com/@justvisionary" target="_blank" rel="noopener noreferrer" class="social-btn">📱 TikTok</a>
+            <a href="https://instagram.com/aiwith.vip" target="_blank" rel="noopener noreferrer" class="social-btn">📸 Instagram</a>
+            <a href="https://pinterest.com/affirmedvisionary" target="_blank" rel="noopener noreferrer" class="social-btn">📌 Pinterest</a>
+            <a href="https://youtube.com/@affirmedvisionary" target="_blank" rel="noopener noreferrer" class="social-btn">📺 YouTube</a>
+            <a href="https://linkedin.com/in/affirmedvisionary" target="_blank" rel="noopener noreferrer" class="social-btn">💼 LinkedIn</a>
+            <a href="https://www.skool.com/visionary-in-progress-2668/about?ref=e0770bacec584dad84cc27ee0486c1bf" target="_blank" rel="noopener noreferrer" class="social-btn">🎓 Skool</a>
+          </div>
+        </div>
+      `;
+      
+      // Hide the copy button for About modal
+      const modalButtons = document.getElementById('modal-buttons');
+      if (modalButtons) {
+        modalButtons.classList.add('hide-copy');
+      }
+      
       document.getElementById('modal-overlay').classList.add('active');
     }
 
@@ -1092,5 +1285,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a110c8734f3cc8e',t:'MTc2MzU2OTM3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a117c28d0bdcc8e',t:'MTc2MzU3Mzk0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
