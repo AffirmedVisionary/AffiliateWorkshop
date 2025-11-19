@@ -1,0 +1,1096 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Affiliate Store Wizard - Visionary In Progress</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #F4F2F0;
+      color: #3B3B3B;
+      overflow: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      height: 100%;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(12px);
+      border-right: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 32px 24px;
+      overflow-y: auto;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .brand-header {
+      margin-bottom: 32px;
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 4px 0;
+    }
+
+    .brand-tagline {
+      font-size: 13px;
+      color: #666;
+      margin: 0;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #999;
+      margin: 0 0 12px 0;
+      font-weight: 600;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      margin-bottom: 4px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      color: #333;
+    }
+
+    .nav-item:hover:not(.disabled) {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, #a8e6cf 0%, #dda5e8 100%);
+      color: white;
+      font-weight: 600;
+    }
+
+    .nav-item.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .nav-item-number {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .nav-item.active .nav-item-number {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 48px 64px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wizard-card {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 48px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .step-header {
+      margin-bottom: 32px;
+    }
+
+    .step-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 0 12px 0;
+      color: #3B3B3B;
+    }
+
+    .step-description {
+      font-size: 16px;
+      color: #666;
+      margin: 0 0 24px 0;
+      line-height: 1.6;
+    }
+
+    .checklist {
+      margin: 32px 0;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .checklist-item:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateX(4px);
+    }
+
+    .checklist-item input[type="checkbox"],
+    .checklist-item input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 12px;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: #a8e6cf;
+    }
+
+    .checklist-item label {
+      flex: 1;
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .why-matters {
+      margin-top: 24px;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(168, 230, 207, 0.1) 0%, rgba(221, 165, 232, 0.1) 100%);
+      border-radius: 12px;
+      border-left: 4px solid #a8e6cf;
+    }
+
+    .why-matters-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+      color: #333;
+    }
+
+    .why-matters-text {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      border-radius: 50px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #a8e6cf 0%, #dda5e8 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(168, 230, 207, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(168, 230, 207, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #666;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-outline:hover {
+      background: rgba(0, 0, 0, 0.02);
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80%;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    .modal-header {
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+      padding: 8px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #333;
+    }
+
+    .prompt-content {
+      background: #f8f8f8;
+      padding: 20px;
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 20px 0;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #333;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      z-index: 2000;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.active {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Confetti */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1500;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      opacity: 0;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .confetti {
+        animation: confettiFall 2s ease-out forwards;
+      }
+
+      @keyframes confettiFall {
+        0% {
+          opacity: 1;
+          transform: translateY(0) rotate(0deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(100%) rotate(360deg);
+        }
+      }
+    }
+
+    .about-content {
+      line-height: 1.8;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      background: rgba(168, 230, 207, 0.2);
+      border: 2px solid rgba(168, 230, 207, 0.3);
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: inline-block;
+    }
+
+    .social-btn:hover {
+      background: rgba(168, 230, 207, 0.3);
+      border-color: rgba(168, 230, 207, 0.5);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        padding: 20px;
+      }
+
+      .main-content {
+        padding: 24px;
+      }
+
+      .wizard-card {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-container">
+   <aside class="sidebar">
+    <div class="brand-header">
+     <h1 class="brand-name" id="brand-name">Visionary In Progress</h1>
+     <p class="brand-tagline" id="brand-tagline">We do vibes and invoices</p>
+    </div>
+    <nav class="nav-section">
+     <h2 class="nav-title">Wizard Steps</h2>
+     <div id="nav-steps"></div>
+    </nav>
+    <nav class="nav-section"><button class="nav-item" onclick="showAbout()"> <span class="nav-item-number">ℹ️</span> <span>About</span> </button>
+    </nav>
+   </aside>
+   <main class="main-content">
+    <div class="wizard-card" id="wizard-content">
+     <p style="text-align: center; color: #999;">Loading...</p>
+    </div>
+   </main>
+  </div>
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+   <div class="modal"><button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-header">
+     <h2 class="modal-title" id="modal-title"></h2>
+    </div>
+    <div id="modal-content"></div>
+    <div class="button-group"><button class="btn btn-primary" onclick="copyPrompt()">📋 Copy to Clipboard</button> <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+    </div>
+   </div>
+  </div>
+  <div class="toast" id="toast"><span>���</span> <span id="toast-message"></span>
+  </div>
+  <div class="confetti-container" id="confetti-container"></div>
+  <script>
+    const defaultConfig = {
+      brand_name: 'Visionary In Progress',
+      tagline: 'We do vibes and invoices',
+      about_text: 'Your brand story will appear here. Edit this text to share your journey with your audience.'
+    };
+
+    let config = { ...defaultConfig };
+
+    const steps = [
+      {
+        id: 'start',
+        title: 'Build Your First Affiliate Store',
+        description: 'This wizard will guide you step by step. You will choose a niche, build a Beacons store, add affiliate links and set up basic promotion.',
+        checklist: [],
+        whyMatters: null,
+        prompt: null,
+        isStart: true
+      },
+      {
+        id: 'niche',
+        title: 'Step 1 - Choose your niche',
+        description: 'Pick one niche for today. You can always change it later, but focus will help you move faster.',
+        checklist: [],
+        isRadio: true,
+        radioOptions: [
+          'Kids and Education',
+          'Wellness and Mindset',
+          'Fitness and Healthy Living',
+          'AI Education'
+        ],
+        whyMatters: 'A niche helps people instantly understand what your page is about. You are not locked in forever, but choosing something today gives clarity and direction.',
+        prompt: 'You are a supportive niche clarity coach helping a complete beginner choose a simple, manageable niche for affiliate marketing.\n\nI am setting up my first Beacons affiliate storefront and needs a niche that fits my interests, strengths and lived experience. I do not need a perfect niche, just a starting direction I feel comfortable with.\n\nAsk me three reflection questions, one at a time, to help me uncover what niche feels natural and sustainable.\n\nQuestions to ask (sequentially):\n\nWho do you naturally like helping or giving advice to\nWhat hobbies, interests or topics light you up\nWhat do friends or family usually come to you for support or guidance about\n\nAfter the answers to all three questions are given, recommend three niche options that fit them well.\n\nInclude a short explanation for each niche that focuses on:\n\nwhy it suits my personality\nwhy it is easy to start with\nwhat kind of digital or affiliate content I could share\n\nFormat your final answer like this:\n\nHere are the 3 niche options that fit you:\n\n1. [Niche Name]\nWhy it fits:\nStarter content ideas:\n\n2. [Niche Name]\nWhy it fits:\nStarter content ideas:\n\n3. [Niche Name]\nWhy it fits:\nStarter content ideas:',
+        promptLabel: 'Open Niche Finder Prompt',
+        promptTitle: 'Mega Niche Finder Prompt'
+      },
+      {
+        id: 'avatar',
+        title: 'Step 2 - Create your AI avatar',
+        description: 'Create a simple avatar so your store feels real, even if you do not want to use a photo today.',
+        checklist: [
+          'Open Meta AI, Canva AI or any image generator',
+          'Paste the avatar prompt',
+          'Fill in the bracket details',
+          'Generate and download your avatar',
+          'Upload it as your Beacons profile image'
+        ],
+        whyMatters: 'A consistent avatar builds trust and removes the pressure of a perfect selfie. It also helps your store visually match your niche.',
+        prompt: 'Role:\nYou are an AI art prompt designer who specialises in creating clean, friendly avatar prompts for beginners. You help users clarify creative details and turn their ideas into polished, ready-to-generate AI art prompts.\n\nContext:\nThe user is creating an avatar for their new affiliate storefront on Beacons.\nThey will use this avatar instead of a real photo.\nThe avatar should:\n• Look friendly and trustworthy\n• Match their niche\n• Use a simple, modern art style\n• Feel aligned with their personal vibe\n\nTask:\nAsk the user the following questions one at a time, wait for their answer each time, and build the avatar details gradually:\n\nWhat gender, age or general look should the avatar have\n\nWhat niche did you choose on Screen 2\n\nWhat visual vibe do you prefer (choose one: flat illustration, soft 3D, pastel cartoon, digital painting, minimalist line art)\n\nOptional: Do you want any accessories or traits included (glasses, headscarf, afro puff, hoodie, notebook, camera, subtle tattoos etc.)\n\nAfter collecting all answers, create three separate avatar prompts:\n\nPrompt 1 — "User Requested Prompt"\n\nA clean, accurate art prompt using exactly the details they provided.\n\nPrompt 2 — "Enhanced Art Prompt"\n\nA slightly more stylised and visually rich version of the prompt, improving lighting, composition and art direction while still keeping it simple and friendly.\n\nPrompt 3 — "Niche-Aligned Suggestion"\n\nAn avatar prompt that you think best represents their chosen niche, even if the user didn\'t think of it.\nExplain in one sentence why this version matches the niche well.',
+        promptLabel: 'Avatar Prompt Generator',
+        promptTitle: 'Avatar Prompt Generator'
+      },
+      {
+        id: 'workshop',
+        title: 'Step 3 - Join Visionary In Progress',
+        description: 'Get free lifetime access to my Skool community and discover other free learning spaces you can share as an affiliate.',
+        explainer: 'Use the code I give you in person to unlock your free pass product, then fill the short form to receive your Skool invite.',
+        checklist: [
+          'Click Claim Your Spot',
+          'Enter the code from the instructor',
+          'Fill in the form with your name and email',
+          'Check your email for the Skool invite',
+          'Add the Beacons affiliate link to your store'
+        ],
+        infoNote: 'This Zapier automation sends your Skool invite right away, so you can add the link to your Beacons store during this workshop.',
+        whyMatters: 'Joining communities keeps you learning and surrounded by people on a similar path. Plus, these free Skool communities offer affiliate programs, so you can promote them without any upfront cost.',
+        prompt: null,
+        externalLink: {
+          text: 'Claim Your Spot',
+          url: 'https://bio.affirmedvisionary.com/shop/prompt-party'
+        },
+        skoolSection: {
+          createLink: {
+            text: 'Create your own Skool group (affiliate link)',
+            url: 'https://www.skool.com/signup?ref=e0770bacec584dad84cc27ee0486c1bf',
+            tooltip: 'For when the group chat finally convinces you to start your own community.'
+          },
+          communities: [
+            {
+              name: 'Design Create Transform (DCT)',
+              url: 'https://www.skool.com/digitaldownloadsuccess/about?ref=e0770bacec584dad84cc27ee0486c1bf',
+              description: 'For digital download creators, templates and online product skills. Free to join, admin approval required.'
+            },
+            {
+              name: 'Skool Daze Academy',
+              url: 'https://www.skool.com/skool-daze-5500/about?ref=e0770bacec584dad84cc27ee0486c1bf',
+              description: 'For learning how to grow with Skool as a platform.'
+            },
+            {
+              name: 'Aligned AF Camp',
+              url: 'https://www.skool.com/aligned-af-camp/about?ref=e0770bacec584dad84cc27ee0486c1bf',
+              description: 'For creators who care about alignment, sustainable growth and community.'
+            },
+            {
+              name: 'AI Driven Business Summit',
+              url: 'https://www.skool.com/ai-driven-business-summit/about?ref=e0770bacec584dad84cc27ee0486c1bf',
+              description: 'For business owners who want to use AI in practical ways.'
+            }
+          ]
+        }
+      },
+      {
+        id: 'beacons',
+        title: 'Step 4 - Set up your Beacons store',
+        description: 'Create your central hub where all your links will live.',
+        checklist: [
+          'Open Beacons and sign up or log in',
+          'Click "Create" then choose "Store"',
+          'Connect PayPal to your Beacons account',
+          'Add a store name',
+          'Add a simple headline',
+          'Save your store'
+        ],
+        whyMatters: 'Beacons becomes your one main link. Instead of sharing lots of separate URLs, you can share this single page and update it any time. Connecting PayPal sets you up for tips or future digital products.',
+        prompt: 'ROLE\n\nYou are a brand naming assistant who specialises in simple, modern, beginner-friendly branding for online creators.\n\nCONTEXT\n\nThe user is creating their first Beacons store and needs a clean, approachable name and headline that match their niche.\n\nTASK\n\nFirst, ask the user two questions one at a time:\n\nWhat niche did you choose\n\nDo you prefer a tone that is playful, simple or professional\n\nOUTCOME\n\nGenerate three store names and three headlines that:\n• are easy to understand\n• match beginner energy\n• feel supportive and clear\n• fit the chosen tone\n\nFORMAT OUTPUT LIKE:\nHere are some name and headline ideas for your niche:\n\nStore Name Options:\n1.\n2.\n3.\n\nHeadline Options:\n1.\n2.\n3.\n\nWould you like them more playful, more minimal, or more niche-specific?',
+        promptLabel: 'Generate store name and headline',
+        promptTitle: 'Name and Headline Prompt',
+        externalLink: {
+          text: 'Open Beacons (Affiliate Link)',
+          url: 'https://beacons.ai/signup?utm_source=bUnknown&utm_medium=lib_sticky_footer_referral_program&utm_campaign=affirmedvisionary&c=affirmedvisionary'
+        }
+      },
+      {
+        id: 'creative-fabrica',
+        title: 'Step 5 - Set up Creative Fabrica affiliate',
+        description: 'Create your Creative Fabrica affiliate account so you can earn from digital products without creating them yourself.',
+        checklist: [
+          'Open the affiliate link',
+          'Create or log into your account',
+          'Open the Affiliate Dashboard page'
+        ],
+        whyMatters: 'This dashboard tracks your clicks and commissions. Without it you can send traffic but not get paid.',
+        prompt: null,
+        externalLink: {
+          text: 'Open Creative Fabrica affiliate (my link)',
+          url: 'https://www.creativefabrica.com/ref/3320701/'
+        }
+      },
+      {
+        id: 'products',
+        title: 'Step 6 - Choose 3 helpful products',
+        description: 'Choose three products from Creative Fabrica that your audience would actually use.',
+        checklist: [
+          'Product 1 chosen',
+          'Product 2 chosen',
+          'Product 3 chosen'
+        ],
+        nicheSuggestions: {
+          'Kids and Education': 'worksheets, flashcards, posters',
+          'Wellness and Mindset': 'journals, colouring pages, self care sheets',
+          'Fitness and Healthy Living': 'meal trackers, workout plans, recipe cards',
+          'AI Education': 'prompt packs, tool guides, worksheets'
+        },
+        whyMatters: 'Aligned products feel natural to recommend and are more likely to convert into sales.',
+        prompt: 'ROLE\n\nYou are an affiliate product advisor helping a beginner choose profitable, relevant Creative Fabrica products for their niche.\n\nCONTEXT\n\nThe user has chosen a niche and needs three beginner-friendly digital products that match the needs of their audience.\n\nTASK\n\nAsk the user:\n"What is your niche and who is your ideal audience inside that niche (e.g. busy mums, new teachers, gym beginners, wellness seekers)?"\n\nWait for their answer.\n\nOUTCOME\n\nProvide five product suggestions that:\n• are easy to explain\n• solve a small, clear problem\n• feel relevant to their niche\n• are beginner friendly to promote\n\nFor each product include:\n• what it is\n• who it helps\n• why it's a good affiliate pick\n\nFORMAT OUTPUT LIKE:\nHere are 5 product ideas that would work well for your niche:\n\n1. [Product Name]\nWhat it is:\nWho it helps:\nWhy it's beginner friendly:\n\n2. ...\n3. ...\n4. ...\n5. ...\n\nWould you like more options or help choosing the top 3?',
+        promptLabel: 'Open Product Ideas Prompt',
+        promptTitle: 'Product Selection Prompt'
+      },
+      {
+        id: 'links',
+        title: 'Step 7 - Copy your affiliate links',
+        description: 'These are the special URLs that tell Creative Fabrica you referred the sale.',
+        checklist: [
+          'Copy affiliate link for product 1',
+          'Copy affiliate link for product 2',
+          'Copy affiliate link for product 3'
+        ],
+        whyMatters: 'If you use the wrong link, you can still help someone, but you will not be credited for the sale.',
+        prompt: null
+      },
+      {
+        id: 'add-links',
+        title: 'Step 8 - Add products to your Beacons store',
+        description: 'Turn those links into clear buttons people can click.',
+        checklist: [
+          'Add product 1 link to Beacons',
+          'Add product 2 link to Beacons',
+          'Add product 3 link to Beacons',
+          'Add clear titles',
+          'Add one line descriptions',
+          'Save your store'
+        ],
+        whyMatters: 'Clear labels and quick benefit statements help people know what is for them, which increases clicks.',
+        prompt: 'ROLE\n\nYou are a digital product copywriter who specialises in turning long product descriptions into short, clear benefit statements for affiliate buttons.\n\nCONTEXT\n\nThe user has a Creative Fabrica product they want to promote. They need a short 1–2 sentence description that highlights who it helps and what problem it solves.\n\nTASK\n\nAsk the user to paste the full Creative Fabrica product description.\n\nThen transform it into:\n• one clear audience line\n• one clear benefit line\n\nOUTCOME\n\nGive them a final 1–2 sentence description ready to paste into Beacons.\n\nFORMAT OUTPUT LIKE:\nHere is your simplified description:\n\nGreat for: [audience]  \nHelps with: [main problem or outcome]  \nWhy it works: [short clear benefit, optional]\n\nWould you like an alternative version (softer, more direct, or more playful)?',
+        promptLabel: 'Description Generator',
+        promptTitle: 'Description Generator Prompt'
+      },
+      {
+        id: 'pippit',
+        title: 'Step 9 - Auto promo videos with Pippit',
+        description: 'Let Pippit turn your favourite link into ongoing video content, even on the free plan.',
+        checklist: [
+          'Open Pippit',
+          'Paste your favourite product link from Beacons',
+          'Add your niche and audience',
+          'Generate promo videos',
+          'Save or schedule a few'
+        ],
+        whyMatters: 'Most affiliates stop promoting. Pippit gives you a batch of posts every week from one link, so your products keep being seen without extra work.',
+        prompt: 'ROLE\n\nYou are a social video content strategist helping a beginner create simple promotional video ideas for their affiliate product.\n\nCONTEXT\n\nThe user is using Pippit to generate automatic video content for one affiliate link.\n\nTASK\n\nAsk:\n\nPaste your product link\n\nWho is your audience\n\nWhat tiny problem does this product solve\n\nOUTCOME\n\nProvide five short-form video ideas PLUS five captions, all beginner friendly.\n\nFORMAT OUTPUT LIKE:\nHere are your 5 promo video ideas:\n\n1. Idea:\n   Caption:\n\n2. Idea:\n   Caption:\n\n3. Idea:\n   Caption:\n\n4. Idea:\n   Caption:\n\n5. Idea:\n   Caption:\n\nWould you like these more motivational, more educational, or more sales-focused?',
+        promptLabel: 'Auto Promo Prompt',
+        promptTitle: 'Pippit Promo Prompt',
+        externalLink: {
+          text: 'Open Pippit (my link)',
+          url: 'https://www.pippit.ai/i/k4zhlSZTSrZ8'
+        }
+      },
+      {
+        id: 'first-post',
+        title: 'Step 10 - Write your first promo post',
+        description: 'Your store is only useful if people know it exists. A simple post is enough to start.',
+        checklist: [
+          'Copy the template',
+          'Personalise it for your niche and product',
+          'Save it or publish it'
+        ],
+        whyMatters: 'You do not need a perfect campaign. You just need a clear invitation so people can click.',
+        prompt: null,
+        hasTextbox: true,
+        textboxTemplate: 'I just added my top [niche] resource to my page. If you are working on [small problem], start with this one.\n\nLink: [your Beacons link]'
+      },
+      {
+        id: 'finished',
+        title: '🎊 Congratulations!',
+        description: 'You\'ve completed your first affiliate storefront! You can now revisit any step from the sidebar.',
+        checklist: [],
+        whyMatters: 'You\'ve built the foundation. Now keep creating, testing, and learning. The dashboard is unlocked!',
+        prompt: null,
+        isFinished: true
+      }
+    ];
+
+    let currentStepIndex = 0;
+    let wizardCompleted = false;
+    let currentPromptText = '';
+
+    const dataHandler = {
+      onDataChanged(data) {
+        // Data handling
+      }
+    };
+
+    function initApp() {
+      console.log('Initializing app...');
+      console.log('Steps array length:', steps.length);
+      renderNavSteps();
+      renderStep(currentStepIndex);
+      
+      // Initialize SDK in background
+      if (window.dataSdk) {
+        window.dataSdk.init(dataHandler).then(result => {
+          if (!result.isOk) {
+            console.error('Failed to initialize data SDK');
+          }
+        });
+      }
+    }
+
+    function renderNavSteps() {
+      const navSteps = document.getElementById('nav-steps');
+      if (!navSteps) return;
+      
+      navSteps.innerHTML = steps.map((step, index) => `
+        <button class="nav-item ${index === currentStepIndex ? 'active' : ''} ${!wizardCompleted && index > currentStepIndex ? 'disabled' : ''}" 
+                onclick="navigateToStep(${index})"
+                ${!wizardCompleted && index > currentStepIndex ? 'disabled' : ''}>
+          <span class="nav-item-number">${index + 1}</span>
+          <span>${step.title.replace(/🎊|🎉/g, '').trim()}</span>
+        </button>
+      `).join('');
+    }
+
+    function navigateToStep(index) {
+      if (!wizardCompleted && index > currentStepIndex) {
+        return;
+      }
+      currentStepIndex = index;
+      renderNavSteps();
+      renderStep(currentStepIndex);
+    }
+
+    function renderStep(index) {
+      const step = steps[index];
+      const content = document.getElementById('wizard-content');
+      if (!content) return;
+
+      let html = `
+        <div class="step-header" ${step.isStart ? 'style="text-align: center;"' : ''}>
+          <h2 class="step-title">${step.title}</h2>
+          <p class="step-description">${step.description}</p>
+        </div>
+      `;
+
+      if (step.explainer) {
+        html += `
+          <div style="margin: 24px 0; padding: 16px; background: rgba(168, 230, 207, 0.1); border-radius: 12px; font-size: 15px; line-height: 1.6; color: #555;">
+            ${step.explainer}
+          </div>
+        `;
+      }
+
+      if (step.externalLink) {
+        html += `
+          <div style="margin: 24px 0;">
+            <a href="${step.externalLink.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="text-decoration: none;">
+              ${step.externalLink.text} 🔗
+            </a>
+          </div>
+        `;
+      }
+
+      if (step.isRadio && step.radioOptions) {
+        html += `<div class="checklist">`;
+        step.radioOptions.forEach((option, i) => {
+          html += `
+            <div class="checklist-item">
+              <input type="radio" name="niche-radio" id="radio-${index}-${i}">
+              <label for="radio-${index}-${i}">${option}</label>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      }
+
+      if (step.checklist && step.checklist.length > 0) {
+        html += `<div class="checklist">`;
+        step.checklist.forEach((item, i) => {
+          html += `
+            <div class="checklist-item">
+              <input type="checkbox" id="check-${index}-${i}">
+              <label for="check-${index}-${i}">${item}</label>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      }
+
+      if (step.infoNote) {
+        html += `
+          <div style="margin: 20px 0; padding: 12px 16px; background: rgba(255, 193, 7, 0.1); border-left: 3px solid #ffc107; border-radius: 8px; font-size: 14px; color: #666; line-height: 1.5;">
+            ℹ️ ${step.infoNote}
+          </div>
+        `;
+      }
+
+      if (step.nicheSuggestions) {
+        html += `
+          <div style="margin: 24px 0; padding: 20px; background: rgba(221, 165, 232, 0.1); border-radius: 12px;">
+            <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 16px 0; color: #333;">💡 Suggestions by niche</h3>
+        `;
+        Object.keys(step.nicheSuggestions).forEach(niche => {
+          html += `
+            <div style="margin-bottom: 12px;">
+              <strong style="color: #555;">${niche}:</strong> 
+              <span style="color: #666;">${step.nicheSuggestions[niche]}</span>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      }
+
+      if (step.hasTextbox && step.textboxTemplate) {
+        html += `
+          <div style="margin: 24px 0;">
+            <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 12px 0; color: #333;">📝 Template</h3>
+            <textarea id="post-template" style="width: 100%; min-height: 120px; padding: 16px; border: 2px solid rgba(0, 0, 0, 0.1); border-radius: 12px; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical;">${step.textboxTemplate}</textarea>
+          </div>
+        `;
+      }
+
+      if (step.skoolSection) {
+        html += `
+          <div style="margin: 32px 0;">
+            <h3 style="font-size: 18px; font-weight: 600; margin: 0 0 16px 0; color: #333;">Optional: Share Skool with your audience</h3>
+            <div style="margin-bottom: 24px;">
+              <a href="${step.skoolSection.createLink.url}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-decoration: none;" title="${step.skoolSection.createLink.tooltip}">
+                ${step.skoolSection.createLink.text} 🔗
+              </a>
+            </div>
+            
+            <h4 style="font-size: 16px; font-weight: 600; margin: 24px 0 16px 0; color: #333;">Free Skool Communities to explore</h4>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+        `;
+        step.skoolSection.communities.forEach(community => {
+          html += `
+            <div style="padding: 16px; background: rgba(255, 255, 255, 0.7); border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.05);">
+              <a href="${community.url}" target="_blank" rel="noopener noreferrer" style="font-weight: 600; color: #a8e6cf; text-decoration: none; font-size: 15px; display: block; margin-bottom: 6px;">
+                ${community.name} →
+              </a>
+              <p style="margin: 0; font-size: 13px; color: #666; line-height: 1.5;">${community.description}</p>
+            </div>
+          `;
+        });
+        html += `
+            </div>
+          </div>
+        `;
+      }
+
+      if (step.whyMatters) {
+        html += `
+          <div class="why-matters">
+            <h3 class="why-matters-title">💡 Why This Matters</h3>
+            <p class="why-matters-text">${step.whyMatters}</p>
+          </div>
+        `;
+      }
+
+      html += `<div class="button-group" ${step.isStart ? 'style="justify-content: center;"' : ''}>`;
+      
+      if (index > 0 && !step.isFinished) {
+        html += `<button class="btn btn-secondary" onclick="previousStep()">⬅️ Back</button>`;
+      }
+
+      if (step.isStart) {
+        html += `<button class="btn btn-primary" onclick="nextStep()">Start Wizard 🚀</button>`;
+      } else if (step.isFinished) {
+        html += `<button class="btn btn-primary" onclick="unlockDashboard()">Open Wizard Dashboard 🎯</button>`;
+        html += `<button class="btn btn-secondary" onclick="restartWizard()">Restart Wizard 🔄</button>`;
+      } else if (index < steps.length - 1) {
+        html += `<button class="btn btn-primary" onclick="nextStep()">Next ➡</button>`;
+      }
+
+      if (step.prompt) {
+        html += `<button class="btn btn-outline" onclick="openPromptModal(${index})">📝 ${step.promptLabel || 'View Prompt'}</button>`;
+      }
+
+      html += `</div>`;
+
+      content.innerHTML = html;
+    }
+
+    function nextStep() {
+      if (currentStepIndex < steps.length - 1) {
+        currentStepIndex++;
+        
+        if (currentStepIndex === steps.length - 1) {
+          wizardCompleted = true;
+          triggerConfetti();
+        }
+        
+        renderNavSteps();
+        renderStep(currentStepIndex);
+      }
+    }
+
+    function previousStep() {
+      if (currentStepIndex > 0) {
+        currentStepIndex--;
+        renderNavSteps();
+        renderStep(currentStepIndex);
+      }
+    }
+
+    function openPromptModal(stepIndex) {
+      const step = steps[stepIndex];
+      document.getElementById('modal-title').textContent = step.promptTitle || step.title;
+      document.getElementById('modal-content').innerHTML = `<div class="prompt-content">${step.prompt || 'Prompt content will be added here.'}</div>`;
+      currentPromptText = step.prompt || '';
+      document.getElementById('modal-overlay').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
+
+    function closeModalOnOverlay(event) {
+      if (event.target === event.currentTarget) {
+        closeModal();
+      }
+    }
+
+    function copyPrompt() {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(currentPromptText).then(() => {
+          showToast('Copied to clipboard!');
+        }).catch(() => {
+          fallbackCopy(currentPromptText);
+        });
+      } else {
+        fallbackCopy(currentPromptText);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      
+      try {
+        document.execCommand('copy');
+        showToast('Copied to clipboard!');
+      } catch (err) {
+        showToast('Copy failed. Please try again.');
+      }
+      
+      document.body.removeChild(textarea);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      toastMessage.textContent = message;
+      toast.classList.add('active');
+      
+      setTimeout(() => {
+        toast.classList.remove('active');
+      }, 3000);
+    }
+
+    function triggerConfetti() {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) return;
+
+      const container = document.getElementById('confetti-container');
+      const colors = ['#a8e6cf', '#dda5e8', '#ffb3ba', '#85c7f2'];
+      
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+        container.appendChild(confetti);
+        
+        setTimeout(() => {
+          confetti.remove();
+        }, 2000);
+      }
+    }
+
+    function unlockDashboard() {
+      showToast('Dashboard unlocked! You can now revisit any step.');
+      renderNavSteps();
+    }
+
+    function restartWizard() {
+      currentStepIndex = 0;
+      wizardCompleted = false;
+      renderNavSteps();
+      renderStep(currentStepIndex);
+      showToast('Wizard restarted!');
+    }
+
+    function showAbout() {
+      const aboutText = config.about_text || defaultConfig.about_text;
+      document.getElementById('modal-title').textContent = 'About ' + (config.brand_name || defaultConfig.brand_name);
+      document.getElementById('modal-content').innerHTML = `
+        <div class="about-content">
+          <p style="font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">${config.tagline || defaultConfig.tagline}</p>
+          <p style="margin: 0 0 24px 0;">${aboutText}</p>
+          <div class="social-links">
+            <a href="#" class="social-btn" onclick="event.preventDefault(); return false;">🌐 Website</a>
+            <a href="#" class="social-btn" onclick="event.preventDefault(); return false;">🎓 Skool</a>
+            <a href="#" class="social-btn" onclick="event.preventDefault(); return false;">📱 TikTok</a>
+            <a href="#" class="social-btn" onclick="event.preventDefault(); return false;">📸 Instagram</a>
+            <a href="#" class="social-btn" onclick="event.preventDefault(); return false;">💼 LinkedIn</a>
+          </div>
+        </div>
+      `;
+      document.getElementById('modal-overlay').classList.add('active');
+    }
+
+    async function onConfigChange(newConfig) {
+      config = { ...config, ...newConfig };
+      
+      const brandName = config.brand_name || defaultConfig.brand_name;
+      const tagline = config.tagline || defaultConfig.tagline;
+      
+      const brandNameEl = document.getElementById('brand-name');
+      const brandTaglineEl = document.getElementById('brand-tagline');
+      
+      if (brandNameEl) brandNameEl.textContent = brandName;
+      if (brandTaglineEl) brandTaglineEl.textContent = tagline;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['brand_name', config.brand_name || defaultConfig.brand_name],
+        ['tagline', config.tagline || defaultConfig.tagline],
+        ['about_text', config.about_text || defaultConfig.about_text]
+      ]);
+    }
+
+    // Initialize immediately when script loads
+    console.log('Script loaded, starting init...');
+    initApp();
+    
+    // Initialize Element SDK after DOM is ready
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a110c8734f3cc8e',t:'MTc2MzU2OTM3My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
