@@ -22,6 +22,9 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       background: #F4F2F0;
       color: #3B3B3B;
+    }
+    
+    body {
       overflow: hidden;
     }
 
@@ -219,6 +222,12 @@
       gap: 12px;
       margin-top: 32px;
       flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+      .button-group {
+        justify-content: center;
+      }
     }
 
     .btn {
@@ -439,17 +448,27 @@
     }
 
     @media (max-width: 768px) {
+      body {
+        overflow: auto;
+      }
+      
       .app-container {
         flex-direction: column;
+        height: auto;
+        min-height: 100%;
       }
 
       .sidebar {
         width: 100%;
         padding: 20px;
+        overflow-y: visible;
+        order: 2;
       }
 
       .main-content {
         padding: 24px;
+        overflow-y: visible;
+        order: 1;
       }
 
       .wizard-card {
@@ -471,7 +490,7 @@
      <h2 class="nav-title">Wizard Steps</h2>
      <div id="nav-steps"></div>
     </nav>
-    <nav class="nav-section"><button class="nav-item" id="after-class-nav" onclick="showAfterClass()" disabled style="opacity: 0.3; cursor: not-allowed;"> <span class="nav-item-number">⭐</span> <span>After Class</span> </button> <button class="nav-item" onclick="showAbout()"> <span class="nav-item-number">ℹ️</span> <span>About</span> </button>
+    <nav class="nav-section"><button class="nav-item" id="after-class-nav" onclick="showAfterClass()" disabled style="opacity: 0.3; cursor: not-allowed;"> <span class="nav-item-number">⭐</span> <span>After Class</span> </button> <button class="nav-item" onclick="showAbout()"> <span class="nav-item-number">ℹ�����</span> <span>About</span> </button>
     </nav>
    </aside>
    <main class="main-content">
@@ -938,7 +957,7 @@
       } else if (step.isFinished) {
         html += `<button class="btn btn-primary" onclick="showAfterClass()">Visit After Class ⭐</button>`;
         html += `<button class="btn btn-secondary" onclick="window.open('https://forms.gle/your-form-link', '_blank')" style="text-decoration: none;">Give Feedback 💬</button>`;
-        html += `<button class="btn btn-outline" onclick="restartWizard()">Restart Wizard 🔄</button>`;
+        html += `<button class="btn btn-outline" onclick="restartWizard()">Restart Wizard ��</button>`;
       } else if (index < steps.length - 1) {
         html += `<button class="btn btn-primary" onclick="nextStep()">Next ➡</button>`;
       }
@@ -1140,7 +1159,7 @@
           </div>
 
           <div style="margin-bottom: 28px;">
-            <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: #333;">🎬 3. Drop a New Pippit Video</h3>
+            <h3 style="font-size: 18px; font-weight: 700; margin: 0 0 12px 0; color: #333;">��� 3. Drop a New Pippit Video</h3>
             <p style="margin: 0; font-size: 15px; color: #666; line-height: 1.7;">Let Pippit cook.<br>Choose one link → generate → post.<br>Even one new video a week keeps your store warm and alive.</p>
           </div>
 
@@ -1285,5 +1304,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a117c28d0bdcc8e',t:'MTc2MzU3Mzk0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a1285d916d2f491',t:'MTc2MzU4NDgyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
